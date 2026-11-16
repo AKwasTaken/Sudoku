@@ -141,6 +141,13 @@
       h = S.codec.header(s);
     if (h) load(h.id, h.diff, s);
     else newGame();
+
+    addEventListener("pointerdown", (e) => {
+      if (st.sel < 0) return;
+      if (e.target.closest(".cell, button, select, .ring")) return;
+      st.sel = -1;
+      sync();
+    });
   }
 
   init();
