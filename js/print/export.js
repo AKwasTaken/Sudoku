@@ -7,7 +7,8 @@
     a.click();
     setTimeout(() => URL.revokeObjectURL(a.href), 5000);
   }
-  function build(st) {
+  // Link to the blank puzzle (no progress): used by the QR code and by "Share".
+  function link(st) {
     const cfg = S.config.siteUrl,
       base = cfg.includes("your-domain.com")
         ? location.href.split(/[?#]/)[0]
@@ -18,12 +19,16 @@
       notes: Array(81).fill(0),
       t: 0,
     });
+    return base + "?" + token;
+  }
+  function build(st) {
     return {
-      sheet: S.sheet(st, base + "?" + token),
+      sheet: S.sheet(st, link(st)),
       name: `sudoku-${st.diff}-${st.id}`,
     };
   }
   S.exporter = {
+    link,
     pdf(st) {
       const b = build(st);
       download(S.toPdf(b.sheet), b.name + ".pdf");

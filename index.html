@@ -13,6 +13,23 @@
     <link rel="stylesheet" href="css/base.css" />
     <link rel="stylesheet" href="css/board.css" />
     <link rel="stylesheet" href="css/controls.css" />
+    <link rel="stylesheet" href="css/win.css" />
+
+    <script src="js/vendor/qrcode.js" defer></script>
+    <script src="js/config.js" defer></script>
+    <script src="js/rng.js" defer></script>
+    <script src="js/generator.js" defer></script>
+    <script src="js/codec.js" defer></script>
+    <script src="js/url.js" defer></script>
+    <script src="js/board.js" defer></script>
+    <script src="js/ring.js" defer></script>
+    <script src="js/print/glyphs.js" defer></script>
+    <script src="js/print/layout.js" defer></script>
+    <script src="js/print/canvas.js" defer></script>
+    <script src="js/print/pdf.js" defer></script>
+    <script src="js/print/export.js" defer></script>
+    <script src="js/win.js" defer></script>
+    <script src="js/game.js" defer></script>
   </head>
   <body>
     <main class="app">
@@ -28,36 +45,94 @@
       </header>
       <div class="meta">
         <span id="id" class="id"></span>
+
         <div class="meta-right">
           <select id="diff" aria-label="Difficulty">
             <option value="easy">Easy</option>
             <option value="medium">Medium</option>
             <option value="hard">Hard</option>
           </select>
-          <button id="new">New</button>
+          <button id="new">
+            <svg class="ico" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 5v14M5 12h14" />
+            </svg>
+            New
+          </button>
         </div>
       </div>
       <div id="board" class="board"></div>
-      <p id="status" class="status" aria-live="polite"></p>
+
       <footer class="tools">
-        <button id="notes" aria-pressed="false">Notes</button>
-        <button id="erase">Erase</button>
-        <button id="save" data-fmt="pdf">PDF</button>
+        <p id="status" class="status" aria-live="polite"></p>
+        <div class="tool-btns">
+          <button
+            id="notes"
+            aria-pressed="false"
+            aria-label="Notes"
+            title="Notes (N)"
+          >
+            <svg class="ico" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M17 3a2.83 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z" />
+            </svg>
+          </button>
+          <button id="erase" aria-label="Erase" title="Erase">
+            <svg class="ico" viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M19 20h-10.5l-4.21-4.3a1 1 0 0 1 0-1.41l10-10a1 1 0 0 1 1.41 0l5 5a1 1 0 0 1 0 1.41l-9.2 9.3"
+              />
+              <path d="M18 13.3l-6.3-6.3" />
+            </svg>
+          </button>
+          <button
+            id="save"
+            data-fmt="pdf"
+            aria-label="Download PDF"
+            title="Download PDF"
+          >
+            <svg class="ico" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <path d="M7 10l5 5 5-5" />
+              <path d="M12 15V3" />
+            </svg>
+          </button>
+        </div>
       </footer>
     </main>
-    <script src="js/vendor/qrcode.js"></script>
-    <script src="js/config.js"></script>
-    <script src="js/rng.js"></script>
-    <script src="js/generator.js"></script>
-    <script src="js/codec.js"></script>
-    <script src="js/url.js"></script>
-    <script src="js/board.js"></script>
-    <script src="js/ring.js"></script>
-    <script src="js/print/glyphs.js"></script>
-    <script src="js/print/layout.js"></script>
-    <script src="js/print/canvas.js"></script>
-    <script src="js/print/pdf.js"></script>
-    <script src="js/print/export.js"></script>
-    <script src="js/game.js"></script>
+
+    <dialog id="win" class="win" aria-labelledby="win-title">
+      <div class="win-card">
+        <button id="win-close" class="win-x" aria-label="Close">&times;</button>
+        <svg
+          id="win-logo"
+          class="win-brand"
+          viewBox="-0.06 -0.06 4.78 1.16"
+          aria-hidden="true"
+        ></svg>
+        <div id="win-grid" class="win-grid" aria-hidden="true"></div>
+        <h2 id="win-title">Hooray!</h2>
+        <p class="win-sub">You completed the sudoku.</p>
+        <svg id="win-time" class="win-time" role="img"></svg>
+        <p class="win-cap">Total time</p>
+        <dl class="win-stats">
+          <div>
+            <dt>Level</dt>
+            <dd id="win-diff"></dd>
+          </div>
+          <div>
+            <dt>Puzzle</dt>
+            <dd id="win-id"></dd>
+          </div>
+          <div>
+            <dt>Per cell</dt>
+            <dd id="win-pace"></dd>
+          </div>
+        </dl>
+        <div class="win-actions">
+          <button id="win-new" class="win-primary">New puzzle</button>
+          <button id="win-share">Share</button>
+        </div>
+      </div>
+      <canvas id="win-confetti" aria-hidden="true"></canvas>
+    </dialog>
   </body>
 </html>

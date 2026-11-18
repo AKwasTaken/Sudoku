@@ -20,7 +20,8 @@
 
   // Result is only shown once every cell is filled.
   function check() {
-    const el = $("status");
+    const el = $("status"),
+      was = st.done;
     if (st.g.every((v) => v)) {
       st.done = st.g.every((v, i) => v === st.sol[i]);
       el.textContent = st.done ? "Correct" : "Incorrect";
@@ -30,9 +31,14 @@
       el.textContent = "";
       el.className = "status";
     }
+    if (st.done && !was) {
+      const s = st; // short beat so the last digit is seen landing
+      setTimeout(() => st === s && S.win.show(s), 500);
+    }
   }
 
   function load(id, diff, saved) {
+    S.win.hide();
     const puzzle = S.generate(id, diff);
     st = {
       id,
@@ -57,6 +63,7 @@
     $("id").textContent = "#" + id;
     check();
     sync();
+    S.board.intro();
   }
 
   function newGame() {
@@ -92,6 +99,7 @@
       .join(" "); // wordmark, same glyphs as the print sheet
     $("logo").innerHTML =
       `<path d="${d}" fill="none" stroke="currentColor" stroke-width=".09" stroke-linecap="round" stroke-linejoin="round"/>`;
+    S.win.init({ onNew: newGame, fmt });
     S.ring.init($("board"), {
       select: (i) => {
         st.sel = i;
@@ -105,6 +113,7 @@
     $("notes").onclick = () => setNotes(!noteMode);
 
     $("save").onclick = () => S.exporter.pdf(st);
+    $("status").onclick = () => st.done && S.win.show(st); // reopen the completion screen
 
     addEventListener("keydown", (e) => {
       if (e.target.tagName === "SELECT" || e.metaKey || e.ctrlKey) return;

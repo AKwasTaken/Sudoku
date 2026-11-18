@@ -1,51 +1,189 @@
 /* Rows share the board's width so everything lines up on one edge */
-.top, .meta, .tools { width: var(--size); display: flex; align-items: center; justify-content: space-between; }
-.logo { display: block; height: 24px; width: auto; color: var(--ink); }
-.time { font-size: 15px; color: var(--mute); font-variant-numeric: tabular-nums; }
-.meta { margin-top: -6px; }
-.id { font-size: 13px; color: var(--mute); font-variant-numeric: tabular-nums; }
-.meta-right { display: flex; align-items: center; gap: 2px; margin-right: -12px; }
+.top,
+.meta,
+.tools {
+  width: var(--size);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.logo {
+  display: block;
+  height: 24px;
+  width: auto;
+  color: var(--ink);
+}
+.time {
+  font-size: 15px;
+  color: var(--mute);
+  font-variant-numeric: tabular-nums;
+}
+.meta {
+  margin-top: -6px;
+}
+.id {
+  font-size: 13px;
+  color: var(--mute);
+  font-variant-numeric: tabular-nums;
+}
+.meta-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
 
-button, select {
-  font: inherit; color: var(--mute); background: none; border: 0; border-radius: 999px;
-  min-height: 40px; padding: 0 14px; cursor: pointer;
-  transition: background-color .12s, color .12s;
+.ico {
+  width: 20px;
+  height: 20px;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+button,
+select {
+  font: inherit;
+  color: var(--ink);
+  background: var(--peer);
+  border: 0;
+  border-radius: 999px;
+  min-height: 36px;
+  padding: 0 14px;
+  cursor: pointer;
+  transition:
+    background-color 0.15s,
+    color 0.15s,
+    transform 0.12s;
 }
 select {
-  -webkit-appearance: none; appearance: none; color: var(--ink); padding: 0 24px 0 12px;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 5'%3E%3Cpath d='M1 1l3 3 3-3' fill='none' stroke='%238b8f98' stroke-width='1.2' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 9px center / 8px;
+  -webkit-appearance: none;
+  appearance: none;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 0 28px 0 14px;
+  background: var(--peer)
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 5'%3E%3Cpath d='M1 1l3 3 3-3' fill='none' stroke='%238b8f98' stroke-width='1.2' stroke-linecap='round'/%3E%3C/svg%3E")
+    no-repeat right 11px center / 8px;
 }
-#new { color: var(--ink); }
-button:active { background: var(--peer); }
-@media (hover: hover) { button:hover { color: var(--ink); } }
-button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
-:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-
-.status { margin: 0; min-height: 1.2em; font-size: 15px; font-weight: 600; letter-spacing: .01em; }
-.status.ok { color: var(--ok); }
-.status.bad { color: var(--bad); }
-
-.tools > button, .menu-wrap { flex: 1; }
-.menu-wrap { position: relative; }
-.menu-wrap > button { width: 100%; }
-.menu {
-  position: absolute; bottom: calc(100% + 8px); right: 0; display: flex; gap: 4px; padding: 6px;
-  background: var(--bg); border: 1px solid var(--line); border-radius: 16px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, .14);
+button:active {
+  transform: scale(0.96);
 }
-.menu[hidden] { display: none; }
-.menu button { color: var(--ink); }
+@media (hover: hover) {
+  button:hover,
+  select:hover {
+    background-color: var(--line);
+  }
+}
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Primary action */
+#new {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 16px 0 12px;
+  font-size: 14px;
+  font-weight: 600;
+  background: var(--ink);
+  color: var(--bg);
+}
+#new .ico {
+  width: 16px;
+  height: 16px;
+  stroke-width: 2;
+}
+@media (hover: hover) {
+  #new:hover {
+    background-color: var(--ink);
+    opacity: 0.85;
+  }
+}
+
+/* Tools: icon-only circles, right-aligned. Status text sits on the left of the same row */
+.tools {
+  gap: 12px;
+}
+.tool-btns {
+  display: flex;
+  gap: 8px;
+}
+.tool-btns button {
+  width: 46px;
+  height: 46px;
+  min-height: 0;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+}
+.tool-btns .ico {
+  width: 22px;
+  height: 22px;
+}
+.tool-btns button[aria-pressed="true"] {
+  background: var(--ink);
+  color: var(--bg);
+}
+
+.status {
+  margin: 0 auto 0 0;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+.status.ok {
+  color: var(--ok);
+  cursor: pointer;
+}
+.status.bad {
+  color: var(--bad);
+}
 
 /* Hold-to-pick number ring */
-.ring { position: fixed; width: 0; height: 0; z-index: 10; pointer-events: none; }
-.ring[hidden] { display: none; }
+.ring {
+  position: fixed;
+  width: 0;
+  height: 0;
+  z-index: 10;
+  pointer-events: none;
+}
+.ring[hidden] {
+  display: none;
+}
 .ring::before {
-  content: ''; position: absolute; width: 244px; height: 244px; margin: -122px; border-radius: 50%;
-  background: var(--glass); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px);
-  box-shadow: 0 10px 40px rgba(0, 0, 0, .2), 0 0 0 1px var(--line);
+  content: "";
+  position: absolute;
+  width: 244px;
+  height: 244px;
+  margin: -122px;
+  border-radius: 50%;
+  background: var(--glass);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  box-shadow:
+    0 10px 40px rgba(0, 0, 0, 0.2),
+    0 0 0 1px var(--line);
 }
 .ring-n {
-  position: absolute; left: 0; top: 0; width: 44px; height: 44px; margin: -22px;
-  display: grid; place-items: center; border-radius: 50%; font-size: 20px; color: var(--ink);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 44px;
+  height: 44px;
+  margin: -22px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  font-size: 20px;
+  color: var(--ink);
 }
-.ring-n.on { background: var(--accent); color: var(--bg); }
+.ring-n.on {
+  background: var(--accent);
+  color: var(--bg);
+}

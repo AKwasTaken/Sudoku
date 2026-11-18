@@ -1,0 +1,213 @@
+/* Completion screen */
+.win {
+  --scrim: rgba(251, 251, 252, 0.62);
+  --tile-given: #1f2b75;
+  --tile-solved-1: #9eb7f0;
+  --tile-solved-2: #7fa0e8;
+  --tile-solved-3: #adc8f5;
+  --tile-solved-4: #6a8de0;
+  --tile-solved-5: #bdd5fa;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 16px;
+  border: 0;
+  background: var(--scrim);
+  color: var(--ink);
+  overflow: auto;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+@media (prefers-color-scheme: dark) {
+  .win {
+    --scrim: rgba(15, 16, 19, 0.62);
+    --tile-given: #243287;
+    --tile-solved-1: #849ee0;
+    --tile-solved-2: #6886d4;
+    --tile-solved-3: #95afe8;
+    --tile-solved-4: #5673c4;
+    --tile-solved-5: #a4bdf0;
+  }
+}
+.win::backdrop {
+  background: transparent;
+}
+.win[open] {
+  display: flex;
+}
+
+.win-card {
+  position: relative;
+  width: min(100%, 360px);
+  margin: auto;
+  padding: 22px 24px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.18);
+}
+.win[open] .win-card {
+  animation: win-in 0.55s cubic-bezier(0.2, 0.9, 0.25, 1) both;
+}
+@keyframes win-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.96);
+  }
+}
+
+.win-x {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 36px;
+  min-height: 36px;
+  padding: 0;
+  font-size: 22px;
+  line-height: 1;
+}
+.win-brand {
+  height: 16px;
+  width: auto;
+  color: var(--mute);
+  margin-bottom: 18px;
+}
+
+.win-grid {
+  display: grid;
+  grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+  gap: 2px;
+  width: 168px;
+  aspect-ratio: 1;
+  margin-bottom: 22px;
+}
+.win-grid > div {
+  display: grid;
+  grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+  gap: 2px;
+}
+.win-grid i {
+  border-radius: 3px;
+  background: var(--tile-solved-1);
+  animation: win-pop 0.5s cubic-bezier(0.2, 0.9, 0.25, 1) both;
+  animation-delay: calc(var(--d) + 0.25s);
+}
+.win-grid > div:nth-child(odd) i:nth-child(2n) {
+  background: var(--tile-solved-2);
+}
+.win-grid > div:nth-child(even) i:nth-child(3n) {
+  background: var(--tile-solved-3);
+}
+.win-grid > div:nth-child(3n+1) i:nth-child(4n+1) {
+  background: var(--tile-solved-4);
+}
+.win-grid > div:nth-child(2n) i:nth-child(5n+2) {
+  background: var(--tile-solved-5);
+}
+.win-grid i.given {
+  background: var(--tile-given);
+}
+
+@keyframes win-pop {
+  from {
+    transform: scale(0.2);
+    opacity: 0;
+  }
+}
+
+.win h2 {
+  margin: 0;
+  font-size: 30px;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+}
+.win-sub {
+  margin: 6px 0 20px;
+  color: var(--mute);
+  font-size: 15px;
+}
+.win-time {
+  display: block;
+  height: 54px;
+  width: auto;
+  color: var(--accent);
+}
+.win-cap {
+  margin: 8px 0 18px;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--mute);
+}
+
+.win-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  width: 100%;
+  margin: 0 0 20px;
+  padding: 14px 0;
+  border-block: 1px solid var(--line);
+}
+.win-stats div + div {
+  border-left: 1px solid var(--line);
+}
+.win-stats dt {
+  margin-bottom: 4px;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--mute);
+}
+.win-stats dd {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.win-actions {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+}
+.win-actions button {
+  flex: 1;
+  min-height: 48px;
+  font-weight: 600;
+  border-radius: 16px;
+}
+.win-actions .win-primary {
+  flex: 2;
+  background: var(--ink);
+  color: var(--bg);
+}
+
+#win-confetti {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+@media (max-height: 640px) {
+  .win-grid {
+    width: 120px;
+    margin-bottom: 16px;
+  }
+  .win-brand {
+    margin-bottom: 12px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .win-card,
+  .win-grid i {
+    animation: none !important;
+  }
+}

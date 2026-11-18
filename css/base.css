@@ -55,7 +55,7 @@ body {
 .app {
   --size: min(
     100vw - 32px,
-    100dvh - 230px,
+    100dvh - 190px,
     560px
   ); /* every row below shares the board's width */
   min-height: 100dvh;
